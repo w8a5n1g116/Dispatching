@@ -1,0 +1,68 @@
+﻿@using DAL.Model;
+@{
+    ViewBag.Title = "终端录入";
+    var F = Html.F();
+
+    DUser dUser = ViewBag.DUser;
+    if (dUser == null)
+    {
+        dUser = new DUser();
+    }
+}
+
+@section body{
+    @(F.Form()
+        .ID("Form1")
+        .LabelAlign(LabelAlign.Right)
+        .MessageTarget(MessageTarget.Qtip)
+        .LabelWidth(90)
+        .ShowBorder(false)
+        .ShowHeader(false)
+        .Items(
+            F.Panel()
+                .ID("Panel1")
+                .Title("终端录入")
+                .BoxFlex(5)
+                .MarginRight(5)
+                .ShowBorder(false)
+                .ShowHeader(false)
+                .Items(
+                     F.HiddenField()
+                        .ID("ID")
+                        .Text(dUser.ID != 0 ? dUser.ID.ToString() : "0"),
+                     F.TextBox()
+                         .ID("Name")
+                         .Label("名称")
+                         .ShowRedStar(true)
+                         .Required(true)
+                         .Text(dUser.Name != null ? dUser.Name : ""),
+                     F.TextBox()
+                        .ID("Password")
+                        .Label("密码")
+                        .ShowRedStar(true)
+                        .Required(true)
+                        .Text(dUser.Password != null ? dUser.Password : ""),
+                    F.TextBox()
+                        .ID("Phone")
+                        .Label("电话")
+                        .Text(dUser.Phone != null ? dUser.Phone : "")
+
+
+                )
+        )
+        .Toolbars(
+            F.Toolbar()
+                .ID("Toolbar1")
+                .ToolbarAlign(ToolbarAlign.Right)
+                .Position(ToolbarPosition.Bottom)
+                .Items(
+                    F.Button()
+                        .ID("Button1")
+                        .Text("保存信息")
+                        .ValidateForms("Form1")
+                        .OnClick(Url.Action("SaveDUser"), "Form1")
+                        .ValidateMessageBox(false)
+                )
+        )
+    )
+}

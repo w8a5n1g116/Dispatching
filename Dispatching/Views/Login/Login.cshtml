@@ -1,0 +1,95 @@
+﻿
+
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+    var F = Html.F();
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @*<link href="http://192.168.203.5:90/res/image/Kocel.ico" rel="SHORTCUT ICON">*@
+    <link type="text/css" rel="stylesheet" href="~/res/css/index.css" />
+    <link href="~/res/css/common.css" rel="stylesheet" type="text/css" />
+    @F.RenderCss()
+    <title>
+        配送系统
+    </title>
+</head>
+<body>
+    @*<div style="width:100px;height:100px;">
+        <img src="/res/images/background.jpg" style="width:100%;height:100%;position:absolute;z-index:-1;" />
+    </div>*@
+
+    @Html.AntiForgeryToken()
+
+    @{
+        var pm = F.PageManager;
+    }
+    @F.PageManager
+
+    @(F.Window()
+        .Width(350)
+        .WindowPosition(WindowPosition.GoldenSection)
+        .EnableClose(false)
+        .IsModal(false)
+        .Title("配送系统登录")
+        .ID("Window1")
+        .Items(
+            F.SimpleForm()
+                .ShowHeader(false)
+                .LabelWidth(80)
+                .BodyPadding(10)
+                .ShowBorder(false)
+                .ID("Login")
+                .Items(
+                    F.TextBox()
+                        .ShowRedStar(true)
+                        .Required(true)
+                        .Label("用户名")
+                        .ID("UserName"),
+                    F.TextBox()
+                        .ShowRedStar(true)
+                        .Required(true)
+                        .TextMode(TextMode.Password)
+                        .Label("密码")
+                        .ID("Password"),
+                    F.HiddenField()
+                        .ID("redirectUrl")
+                        .Text(Request.QueryString["redirectUrl"])
+                )
+        )
+        .Toolbars(
+            F.Toolbar()
+                .Position(ToolbarPosition.Bottom)
+                .ToolbarAlign(ToolbarAlign.Right)
+                .ID("Toolbar1")
+                .Items(
+                    F.Button()
+                        .OnClick(Url.Action("Login"), "Login")
+                        //.OnClientClick("loginAjax();")
+                        .ValidateTarget(Target.Top)
+                        .ValidateForms("SimpleForm1")
+                        .Type(ButtonType.Submit)
+                        .Text("登录")
+                        .ID("btnLogin"),
+                    F.Button()
+                        .Type(ButtonType.Reset)
+                        .Text("重置")
+                        .ID("btnReset")
+                )
+        )
+    )
+    <br>
+    @F.RenderScript()
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "订单详情";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @{ 
+        int id = ViewBag.ID;
+    }
+
+    @(F.Grid()
+            .ID("Grid1")
+            .ShowBorder(true)
+            .ShowHeader(true)
+            .Title("订单详情")
+            .EnableCollapse(false)
+            .Layout(LayoutType.VBox)
+            .Height(500)
+            .BoxConfigChildMargin("0 0 5 0")
+            .BodyPadding(5)
+            .DataIDField("ID")
+            .DataTextField("Name")
+            //.AllowCellEditing(true)
+            //.ClicksToEdit(2)
+            .EnableCheckBoxSelect(true)
+            .AllowPaging(true)
+            .PageSize(10)
+            .IsDatabasePaging(true)
+            .OnPageIndexChanged(Url.Action("OrderDetail_PageIndexChanged"), "Grid1",new Parameter("id",id.ToString()))
+            .Columns(
+                F.RowNumberField(),
+                F.RenderField()
+                    .ColumnID("ID")
+                    .DataField("ID")
+                    .HeaderText("ID")
+                    .Hidden(true),
+                F.RenderField()
+                    .ColumnID("GoodsName")
+                    .DataField("Goods.Name")
+                    .HeaderText("名称"),
+                F.RenderField()
+                    .ColumnID("CountPrice")
+                    .DataField("CountPrice")
+                    .HeaderText("单项总价"),
+                F.RenderField()
+                    .ColumnID("Count")
+                    .DataField("Count")
+                    .HeaderText("单项数量"),
+                F.RenderField()
+                    .ColumnID("CreateTime")
+                    .DataField("CreateTime")
+                    .HeaderText("创建时间")
+                    .Width(200)
+                    .FieldType(FieldType.Date)
+                    .Renderer(Renderer.Date)
+                    .RendererArgument("yyyy-MM-dd HH:mm:ss")
+
+            )
+            .RecordCount(ViewBag.Grid1RecordCount)
+            .DataSource(ViewBag.Grid1DataSource)
+            .ShowPagingMessage(true)
+    )
+
+}
+
+@section script {
+    <script>
+        
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
