@@ -51,6 +51,16 @@
                     .DataField("Phone")
                     .HeaderText("电话"),
                 F.RenderField()
+                    .ColumnID("Permission")
+                    .DataField("Permission")
+                    .HeaderText("权限")
+                    .RendererFunction("renderActionPermissionField"),
+                F.RenderField()
+                    .ColumnID("Role")
+                    .DataField("Role")
+                    .HeaderText("角色")
+                    .RendererFunction("renderActionRoleField"),
+                F.RenderField()
                     .ColumnID("CreateTime")
                     .DataField("CreateTime")
                     .HeaderText("创建时间")
@@ -109,6 +119,45 @@
     <script>
         function renderActionField(value, params) {
             return '<a href="javascript:;" class="editfield"><img class="f-grid-cell-icon" src="@Url.Content("~/res/icon/pencil.png")"></a>';
+        }
+
+        function renderActionPermissionField(value, params) {
+            if (value == 1)
+            {
+                return '管理员'
+            }
+            else if (value == 2)
+            {
+                return '酒品配送'
+            }
+            else if (value == 0)
+            {
+                return '商品配送';
+            }
+            else if (value == 3) {
+                return '商品管理员';
+            }
+        }
+
+        function renderActionRoleField(value, params) {
+            if (value == 3) {
+                return '配送员'
+            }
+            else if (value == 1) {
+                return '业务员'
+            }
+            else if (value == 4) {
+                return '结算员';
+            }
+            else if (value == 2) {
+                return '经理';
+            }
+            else if (value == 11) {
+                return '送货员';
+            }
+            else if (value == 0) {
+                return '管理员';
+            }
         }
 
         // 打开窗体

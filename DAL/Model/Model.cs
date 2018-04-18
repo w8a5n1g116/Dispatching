@@ -35,6 +35,11 @@
         public virtual DbSet<OrderGoods> OrderGoods { get; set; }
         public virtual DbSet<TerminalWXUser> TerminalWXUser { get; set; }
 
+        public virtual DbSet<SaltOrderGoods> SaltOrderGoods { get; set; }
+        public virtual DbSet<SaltOrder> SaltOrder { get; set; }
+        public virtual DbSet<SaltTerminal> SaltTerminal { get; set; }
+        public virtual DbSet<SaltGoods> SaltGoods { get; set; }
+
         public static Model GetDbContext()
         {
             // 首先先线程上下文中查看是否有已存在的DBContext  

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace DAL.Model
         public DUser()
         {
             Terminal = new HashSet<Terminal>();
+            SaltTerminal = new HashSet<SaltTerminal>();
         }
 
         [Key]
@@ -35,7 +37,14 @@ namespace DAL.Model
         [Display(Name = "权限")]
         public int Permission { get; set; }
 
+        [Display(Name = "角色")]
+        public int Role { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Terminal> Terminal { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<SaltTerminal> SaltTerminal { get; set; }
 
     }
 }

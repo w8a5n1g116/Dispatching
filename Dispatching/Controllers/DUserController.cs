@@ -98,7 +98,8 @@ namespace FineUIMvc.EmptyProject.Controllers
             dUser.Password = values["Password"];
             dUser.Phone = values["Phone"];
             dUser.CreateTime = DateTime.Now;
-
+            dUser.Permission = Convert.ToInt32(values["Permission"]);
+            dUser.Role = Convert.ToInt32(values["Role"]);
 
             if (ID == 0)
             {
@@ -135,6 +136,30 @@ namespace FineUIMvc.EmptyProject.Controllers
                 return UIHelper.Result();
             }
 
+
+            return UIHelper.Result();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Permission_SelectedIndexChanged(string permission, string permission_text)
+        {
+            ListItemCollection RoleItems = new ListItemCollection(new DropDownList());
+            if(permission_text == "酒品配送")
+            {
+                RoleItems.Add("送货员", "11");
+            }
+            else if (permission_text == "商品配送")
+            {
+                RoleItems.Add("配送员", "3");
+                RoleItems.Add("业务员", "1");
+                RoleItems.Add("结算员", "4");
+                RoleItems.Add("经理", "2");
+            }
+                
+
+            var Role = UIHelper.DropDownList("Role");
+            Role.LoadData(RoleItems.ToArray());
 
             return UIHelper.Result();
         }

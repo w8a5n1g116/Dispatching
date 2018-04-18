@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "终端管理";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @(F.Grid()
+            .ID("Grid1")
+            .ShowBorder(true)
+            .ShowHeader(true)
+            .Title("商品管理")
+            .EnableCollapse(false)
+            .Layout(LayoutType.VBox)
+            .Height(500)
+            .BoxConfigChildMargin("0 0 5 0")
+            .BodyPadding(5)
+            .DataIDField("ID")
+            .DataTextField("Name")
+            //.AllowCellEditing(true)
+            //.ClicksToEdit(2)
+            .EnableCheckBoxSelect(true)
+            .AllowPaging(true)
+            .PageSize(10)
+            .IsDatabasePaging(true)
+            .OnPageIndexChanged(Url.Action("SaltGoodsIn_PageIndexChanged"), "Grid1")
+            .Columns(
+                F.RowNumberField(),
+                F.RenderField()
+                    .ColumnID("ID")
+                    .DataField("ID")
+                    .HeaderText("ID")
+                    .Hidden(true),
+                F.RenderField()
+                    .ColumnID("Name")
+                    .DataField("Name")
+                    .HeaderText("名称")
+                    .Width(200),
+                F.RenderField()
+                    .ColumnID("Price")
+                    .DataField("Price")
+                    .HeaderText("价格"),
+                F.RenderField()
+                    .ColumnID("Rebate")
+                    .DataField("Rebate")
+                    .HeaderText("返利"),
+                F.RenderField()
+                    .ColumnID("Spec")
+                    .DataField("Spec")
+                    .HeaderText("规格")
+                    .Width(200),
+                F.RenderField()
+                    .ColumnID("Description")
+                    .DataField("Description")
+                    .HeaderText("描述")
+                    .Width(300),
+                F.RenderField()
+                    .ColumnID("CreateTime")
+                    .DataField("CreateTime")
+                    .HeaderText("创建时间")
+                    .Width(200)
+                    .FieldType(FieldType.Date)
+                    .Renderer(Renderer.Date)
+                    .RendererArgument("yyyy-MM-dd HH:mm:ss"),
+                F.RenderField()
+                    .HeaderText("修改")
+                    .Width(80)
+                    .EnableHeaderMenu(false)
+                    .RendererFunction("renderActionField"),
+                F.RenderField()
+                    .HeaderText("删除")
+                    .Width(80)
+                    .EnableHeaderMenu(false)
+                    .RendererFunction("renderDeleteActionField")
+            )
+            .Toolbars(
+                F.Toolbar()
+                    .ID("Toolbar1")
+                    .Items(
+                        F.Button()
+                            .ID("btnNew")
+                            .Text("新增商品")
+                            .Icon(Icon.Add)
+                            .Listener("click", "F.ui.Window1.show('" + Url.Content("~/SaltGoods/SaltGoodsInDetail") + "', '终端录入');")
+                    )
+            )
+            .RecordCount(ViewBag.Grid1RecordCount)
+            .DataSource(ViewBag.Grid1DataSource)
+            .ShowPagingMessage(true)
+    )
+
+    @(F.Window()
+            .ID("Window1")
+            .IconUrl(Url.Content("~/res/images/16/10.png"))
+            .WindowPosition(WindowPosition.Center)
+            .IsModal(true)
+            .Title("添加产品")
+            .EnableMaximize(true)
+            .EnableResize(true)
+            .Target(Target.Self)
+            .EnableIFrame(true)
+            .Height(550)
+            .Width(850)
+            .OnClose(Url.Action("SaltGoodsInDetail_Close"), new Parameter("fields", "F.ui.Grid1.fields"))
+            .Hidden(true)
+    )
+
+
+
+}
+
+@section script {
+    <script>
+        function renderActionField(value, params) {
+            return '<a href="javascript:;" class="editfield"><img class="f-grid-cell-icon" src="@Url.Content("~/res/icon/pencil.png")"></a>';
+        }
+
+        // 打开窗体
+        function openWindow(rowData) {
+
+            // Grid/IFrameWindow?id=104&name=刘国
+            var iframeWindowUrl = '@Url.Content("~/SaltGoods/SaltGoodsInDetail")';
+            var iframeUrl = iframeWindowUrl + '?id='+ rowData.id; //+ rowData.id + '&name=' + encodeURIComponent(rowData.text);
+
+            // 显示窗体
+            F.ui.Window1.show(iframeUrl, '详细信息 - ' + rowData.text);
+        }
+
+        F.ready(function () {
+
+            var grid = F.ui.Grid1;
+
+            // 点击表格行中的编辑按钮
+            grid.el.on('click', 'a.editfield', function (event) {
+                var rowEl = $(this).closest('.f-grid-row');
+                var rowData = grid.getRowData(rowEl);
+
+                openWindow(rowData);
+            });
+
+            grid.el.on('click', 'a.delete', function (event) {
+                var rowEl = $(this).closest('.f-grid-row');
+                var rowData = grid.getRowData(rowEl);
+
+                F.confirm({
+                    message: '删除选中行？',
+                    target: '_top',
+                    ok: function () {
+                        deleteObject(rowData);
+                        grid.deleteRow(rowData);
+                    }
+                });
+            });
+
+        });
+
+        function renderDeleteActionField(value, params) {
+            return '<a href="javascript:;" class="delete"><img class="f-grid-cell-icon" src="@Url.Content("~/res/icon/delete.png")"></a>';
+        }
+
+        function deleteObject(rowData)
+        {
+            F.doPostBack('@Url.Content("~/SaltGoods/DeleteSaltGoods")', {
+                id: rowData.id
+            });
+        }
+
+    </script>
+}
+
+
+
+
+

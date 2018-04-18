@@ -27,7 +27,13 @@ namespace FineUIMvc.EmptyProject.Controllers
         // GET: Order
         public ActionResult OrderList()
         {
-            List<Order> orderList = _orderSerive.FindList(p => true, "", true).OrderByDescending(p => p.CreateTime).ToList();
+            DateTime startTime1 = DateTime.Now;
+            DateTime endTime1 = DateTime.Now;
+            DateTime startToday, endToday;
+            startToday = new DateTime(startTime1.Year, startTime1.Month, startTime1.Day, 0, 0, 0);
+            endToday = new DateTime(endTime1.AddDays(1).Year, endTime1.AddDays(1).Month, endTime1.AddDays(1).Day, 0, 0, 0);
+
+            List<Order> orderList = _orderSerive.FindList(p => startToday < p.CreateTime && p.CreateTime < endToday, "", true).OrderByDescending(p => p.CreateTime).ToList();
 
             ViewBag.Grid1RecordCount = orderList.Count;
 

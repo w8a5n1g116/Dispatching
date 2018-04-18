@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = "订单管理";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @(F.Form()
+        .ID("QueryForm")
+        .Rows(
+            F.FormRow()
+                .Items(
+                    F.DatePicker()
+                        .DateFormatString("yyyy-MM-dd")
+                        .Label("开始日期")
+                        .EmptyText("请选择开始日期")
+                        .ID("startTime")
+                        .SelectedDate(DateTime.Now),
+                    F.DatePicker()
+                        .DateFormatString("yyyy-MM-dd")
+                        .Label("结束日期")
+                        .EmptyText("请选择结束日期")
+                        .ID("endTime")
+                        .SelectedDate(DateTime.Now)
+                ),
+            F.FormRow()
+                .Items(
+                    F.DropDownList()
+                        .ID("orderStatus")
+                        .Label("支付状态")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("下达")
+                                .Value("下达"),
+                            F.ListItem()
+                                .Text("通过")
+                                .Value("通过"),
+                            F.ListItem()
+                                .Text("驳回")
+                                .Value("驳回"),
+                            F.ListItem()
+                                .Text("送达")
+                                .Value("送达"),
+                            F.ListItem()
+                                .Text("待收现")
+                                .Value("待收现"),
+                            F.ListItem()
+                                .Text("已收现")
+                                .Value("已收现"),
+                            F.ListItem()
+                                .Text("结算")
+                                .Value("结算")
+                    ),
+                    F.DropDownList()
+                        .ID("orderType")
+                        .Label("订单类型")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("下单")
+                                .Value("下单"),
+                            F.ListItem()
+                                .Text("换货")
+                                .Value("换货"),
+                            F.ListItem()
+                                .Text("退货")
+                                .Value("退货")
+                    ),
+                    F.DropDownList()
+                        .ID("payType")
+                        .Label("支付类型")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("现金")
+                                .Value("现金"),
+                            F.ListItem()
+                                .Text("压批")
+                                .Value("压批")
+                    )
+                ),
+            F.FormRow()
+                .Items(                   
+                    F.TextBox()
+                        .ID("userName")
+                        .Text("")
+                        .Label("用户名称"),
+                    F.TextBox()
+                        .ID("terminalName")
+                        .Text("")
+                        .Label("终端名称"),
+                    F.Button()
+                        .ID("btnNew")
+                        .Text("查询")
+                        .Icon(Icon.Application)
+                        .OnClick(Url.Action("SaltOrderList"), "QueryForm", new Parameter("fields", "F.ui.Grid1.fields"))
+                )
+        )
+    )
+
+    @(F.Grid()
+            .ID("Grid1")
+            .ShowBorder(true)
+            .ShowHeader(true)
+            .Title("订单管理")
+            .EnableCollapse(false)
+            .Layout(LayoutType.VBox)
+            .Height(500)
+            .BoxConfigChildMargin("0 0 5 0")
+            .BodyPadding(5)
+            .DataIDField("ID")
+            //.DataTextField("Name")
+            //.AllowCellEditing(true)
+            //.ClicksToEdit(2)
+            .EnableCheckBoxSelect(true)
+            .AllowPaging(true)
+            .PageSize(10)
+            .IsDatabasePaging(true)
+            .OnPageIndexChanged(Url.Action("SaltOrderList_PageIndexChanged"), "Grid1", new Parameter("startTime", "F.ui.startTime.getText()"), new Parameter("endTime", "F.ui.endTime.getText()"), new Parameter("userName", "F.ui.userName.getText()"), new Parameter("terminalName", "F.ui.terminalName.getText()"), new Parameter("orderStatus", "F.ui.orderStatus.getText()"), new Parameter("orderType", "F.ui.orderType.getText()"), new Parameter("payType", "F.ui.payType.getText()"))
+            .Columns(
+                F.RowNumberField(),
+                F.RenderField()
+                    .ColumnID("ID")
+                    .DataField("ID")
+                    .HeaderText("ID")
+                    .Hidden(true),
+                F.RenderField()
+                    .ColumnID("CountPrice")
+                    .DataField("CountPrice")
+                    .HeaderText("总价"),
+                F.RenderField()
+                    .ColumnID("CountRebate")
+                    .DataField("CountRebate")
+                    .HeaderText("总返利"),
+                F.RenderField()
+                    .ColumnID("CountIncome")
+                    .DataField("CountIncome")
+                    .HeaderText("总实收"),
+                F.RenderField()
+                    .ColumnID("OrderStatus")
+                    .DataField("OrderStatus")
+                    .HeaderText("订单状态"),
+                F.RenderField()
+                    .ColumnID("OrderType")
+                    .DataField("OrderType")
+                    .HeaderText("订单类型"),
+                F.RenderField()
+                    .ColumnID("PayType")
+                    .DataField("PayType")
+                    .HeaderText("支付类型"),
+                F.RenderField()
+                    .ColumnID("CategoryCount")
+                    .DataField("CategoryCount")
+                    .HeaderText("种类数"),
+                F.RenderField()
+                    .ColumnID("UserName")
+                    .DataField("DUser.Name")
+                    .HeaderText("下单用户"),
+                F.RenderField()
+                    .ColumnID("TerminalName")
+                    .DataField("SaltTerminal.Name")
+                    .HeaderText("送达终端")
+                    .Width(200),
+                F.RenderField()
+                    .ColumnID("CreateTime")
+                    .DataField("CreateTime")
+                    .HeaderText("创建时间")
+                    .Width(200)
+                    .FieldType(FieldType.Date)
+                    .Renderer(Renderer.Date)
+                    .RendererArgument("yyyy-MM-dd HH:mm:ss"),
+                F.RenderField()
+                    .HeaderText("查看")
+                    .Width(80)
+                    .EnableHeaderMenu(false)
+                    .RendererFunction("renderActionField")
+            )
+            .RecordCount(ViewBag.Grid1RecordCount)
+            .DataSource(ViewBag.Grid1DataSource)
+            .ShowPagingMessage(true)
+    )
+
+    @(F.Window()
+        .ID("Window1")
+        .IconUrl(Url.Content("~/res/images/16/10.png"))
+        .WindowPosition(WindowPosition.Center)
+        .IsModal(true)
+        .Title("添加产品")
+        .EnableMaximize(true)
+        .EnableResize(true)
+        .Target(Target.Self)
+        .EnableIFrame(true)
+        .Height(550)
+        .Width(850)
+        .OnClose(Url.Action("SaltOrderDetail_Close"), new Parameter("fields", "F.ui.Grid1.fields"))
+        .Hidden(true)
+)
+
+}
+
+@section script {
+    <script>
+        function renderActionField(value, params) {
+            return '<a href="javascript:;" class="editfield"><img class="f-grid-cell-icon" src="@Url.Content("~/res/icon/application_cascade.png")"></a>';
+        }
+
+        // 打开窗体
+        function openWindow(rowData) {
+
+            // Grid/IFrameWindow?id=104&name=刘国
+            var iframeWindowUrl = '@Url.Content("~/SaltOrder/SaltOrderDetail")';
+            var iframeUrl = iframeWindowUrl + '?id='+ rowData.id; //+ rowData.id + '&name=' + encodeURIComponent(rowData.text);
+
+            // 显示窗体
+            F.ui.Window1.show(iframeUrl, '详细信息 - ' + rowData.text);
+        }
+
+        F.ready(function () {
+
+            var grid = F.ui.Grid1;
+
+            // 点击表格行中的编辑按钮
+            grid.el.on('click', 'a.editfield', function (event) {
+                var rowEl = $(this).closest('.f-grid-row');
+                var rowData = grid.getRowData(rowEl);
+
+                openWindow(rowData);
+            });
+            
+        });
+
+
+    </script>
+}
+
+
+
+
+
+
+
+
+

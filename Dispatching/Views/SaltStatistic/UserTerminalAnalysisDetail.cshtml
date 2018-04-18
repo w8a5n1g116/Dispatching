@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "终端详情";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @(F.Grid()
+            .ID("Grid1")
+            .ShowBorder(true)
+            .ShowHeader(true)
+            .Title("终端详情")
+            .EnableCollapse(false)
+            .Layout(LayoutType.VBox)
+            .Height(500)
+            .BoxConfigChildMargin("0 0 5 0")
+            .BodyPadding(5)
+            .DataIDField("ID")
+            .DataTextField("ID")
+            //.AllowCellEditing(true)
+            //.ClicksToEdit(2)
+            //.EnableCheckBoxSelect(true)
+            //.AllowPaging(true)
+            //.PageSize(10)
+            //.IsDatabasePaging(true)
+            //.OnPageIndexChanged(Url.Action("UserAnalysis_PageIndexChanged"), "Grid1")
+            .Columns(
+                F.RowNumberField(),
+                F.RenderField()
+                    .ColumnID("ID")
+                    .DataField("ID")
+                    .HeaderText("ID")
+                    .Hidden(true),
+                F.RenderField()
+                    .ColumnID("Name")
+                    .DataField("Name")
+                    .HeaderText("终端名称"),
+                F.RenderField()
+                    .ColumnID("CreateTime")
+                    .DataField("CreateTime")
+                    .HeaderText("开店时间")
+                    .FieldType(FieldType.Date)
+                    .Renderer(Renderer.Date)
+            )
+
+            //.RecordCount(ViewBag.Grid1RecordCount)
+            .DataSource(ViewBag.Grid1DataSource)
+    //.ShowPagingMessage(true)
+    )
+)
+
+}
+
+@section script {
+    
+}
+
+
+
+
+
+
+
+
+

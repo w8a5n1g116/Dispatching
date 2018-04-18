@@ -92,6 +92,30 @@ namespace FineUIMvc.EmptyProject.Controllers
             TerminalStatisticManage.Text = "终端订单统计";
             TerminalStatisticManage.NavigateUrl = "~/Statistic/TerminalAnalysis";
 
+            TreeNode SaltTerminalManage = new TreeNode();
+            SaltTerminalManage.Text = "商品终端管理";
+            SaltTerminalManage.NavigateUrl = "~/SaltTerminal/SaltTerminalIn";
+
+            TreeNode SaltGoodsManage = new TreeNode();
+            SaltGoodsManage.Text = "商品商品管理";
+            SaltGoodsManage.NavigateUrl = "~/SaltGoods/SaltGoodsIn";
+
+            TreeNode SaltOrderManage = new TreeNode();
+            SaltOrderManage.Text = "商品订单管理";
+            SaltOrderManage.NavigateUrl = "~/SaltOrder/SaltOrderList";
+
+            TreeNode SaltUserStatisticManage = new TreeNode();
+            SaltUserStatisticManage.Text = "商品用户订单统计";
+            SaltUserStatisticManage.NavigateUrl = "~/SaltStatistic/UserAnalysis";
+
+            TreeNode SaltTerminalStatisticManage = new TreeNode();
+            SaltTerminalStatisticManage.Text = "商品终端订单统计";
+            SaltTerminalStatisticManage.NavigateUrl = "~/SaltStatistic/TerminalAnalysis";
+
+            TreeNode UserTerminalStatisticManage = new TreeNode();
+            UserTerminalStatisticManage.Text = "开店统计";
+            UserTerminalStatisticManage.NavigateUrl = "~/SaltStatistic/UserTerminalAnalysis";
+
 
             List<TreeNode> nodeList = new List<TreeNode>();
 
@@ -105,14 +129,29 @@ namespace FineUIMvc.EmptyProject.Controllers
                 nodeList.Add(UserStatisticManage);
                 nodeList.Add(TerminalStatisticManage);
             }
-            else
+            else if(user.Permission == 2)
             {
                 nodeList.Add(OrderManage);
                 nodeList.Add(UserStatisticManage);
                 nodeList.Add(TerminalStatisticManage);
             }
+            else if (user.Permission == 3)
+            {
+                nodeList.Add(SaltTerminalManage);
+                nodeList.Add(SaltGoodsManage);
+                nodeList.Add(SaltOrderManage);
+                nodeList.Add(SaltUserStatisticManage);
+                nodeList.Add(SaltTerminalStatisticManage);
+                nodeList.Add(UserTerminalStatisticManage);
+            }
+            else if(user.Permission == 4)
+            {
+                nodeList.Add(SaltOrderManage);
+                nodeList.Add(SaltUserStatisticManage);
+                nodeList.Add(SaltTerminalStatisticManage);
+            }
 
-            
+
 
             return nodeList;
         }

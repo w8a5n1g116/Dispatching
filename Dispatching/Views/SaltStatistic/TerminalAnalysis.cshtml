@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "终端订单统计";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @(F.Form()
+        .ID("QueryForm")
+        .Rows(
+            F.FormRow()
+                .Items(
+                    F.DatePicker()
+                        .DateFormatString("yyyy-MM-dd")
+                        .Label("开始日期")
+                        .EmptyText("请选择开始日期")
+                        .ID("startTime")
+                        .SelectedDate(DateTime.Now),
+                    F.DatePicker()
+                        .DateFormatString("yyyy-MM-dd")
+                        .Label("结束日期")
+                        .EmptyText("请选择结束日期")
+                        .ID("endTime")
+                        .SelectedDate(DateTime.Now),
+                    F.TextBox()
+                        .ID("terminalName")
+                        .Text("")
+                        .Label("终端名"),
+                    F.Button()
+                        .ID("btnNew")
+                        .Text("查询")
+                        .Icon(Icon.Application)
+                        .OnClick(Url.Action("TerminalAnalysis"), "QueryForm", new Parameter("fields", "F.ui.Grid1.fields")),
+                    F.HiddenField()
+                        .ID("PostBackStartTime")
+                        .Text(""),
+                    F.HiddenField()
+                        .ID("PostBackEndTime")
+                        .Text("")
+                )
+        )
+    )
+
+    @(F.Grid()
+        .ID("Grid1")
+        .ShowBorder(true)
+        .ShowHeader(true)
+        .Title("终端订单统计")
+        .EnableCollapse(false)
+        .Layout(LayoutType.VBox)
+        .Height(500)
+        .BoxConfigChildMargin("0 0 5 0")
+        .BodyPadding(5)
+        .DataIDField("TerminalID")
+        .DataTextField("TerminalID")
+        .AllowPaging(true)
+        .PageSize(10)
+        .IsDatabasePaging(true)
+        .OnPageIndexChanged(Url.Action("TerminalAnalysis_PageIndexChanged"), "Grid1", new Parameter("startTime", "F.ui.startTime.getText()"), new Parameter("endTime", "F.ui.endTime.getText()"), new Parameter("terminalName", "F.ui.terminalName.getText()"))
+        .Columns(
+            F.RowNumberField(),
+            F.RenderField()
+                .ColumnID("TerminalID")
+                .DataField("TerminalID")
+                .HeaderText("TerminalID")
+                .Hidden(true),
+            F.RenderField()
+                .ColumnID("TerminalName")
+                .DataField("TerminalName")
+                .HeaderText("终端名称"),
+            F.RenderField()
+                .ColumnID("OrderCount")
+                .DataField("OrderCount")
+                .HeaderText("收单数量"),
+            F.RenderField()
+                .ColumnID("CategoryCount")
+                .DataField("CategoryCount")
+                .HeaderText("种类数"),
+            F.RenderField()
+                .ColumnID("Count")
+                .DataField("Count")
+                .HeaderText("总量"),
+            F.RenderField()
+                .ColumnID("CountRebate")
+                .DataField("CountRebate")
+                .HeaderText("总返利"),
+            F.RenderField()
+                .ColumnID("CountIncome")
+                .DataField("CountIncome")
+                .HeaderText("总收款"),
+            F.RenderField()
+                .ColumnID("CountPrice")
+                .DataField("CountPrice")
+                .HeaderText("总价"),
+            F.RenderField()
+                .ColumnID("DUserName")
+                .DataField("DUser.Name")
+                .HeaderText("开店用户"),
+            F.RenderField()
+                .HeaderText("查看")
+                .Width(80)
+                .EnableHeaderMenu(false)
+                .RendererFunction("renderActionField")
+        )
+        .RecordCount(ViewBag.Grid1RecordCount)
+        .DataSource(ViewBag.Grid1DataSource)
+        .ShowPagingMessage(true)
+    )
+
+    @(F.Window()
+        .ID("Window1")
+        .IconUrl(Url.Content("~/res/images/16/10.png"))
+        .WindowPosition(WindowPosition.Center)
+        .IsModal(true)
+        .Title("添加产品")
+        .EnableMaximize(true)
+        .EnableResize(true)
+        .Target(Target.Self)
+        .EnableIFrame(true)
+        .Height(550)
+        .Width(850)
+        .OnClose(Url.Action("TerminalAnalysisDetail_Close"), new Parameter("fields", "F.ui.Grid1.fields"))
+        .Hidden(true)
+    )
+
+}
+
+@section script {
+    <script>
+        function renderActionField(value, params) {
+            return '<a href="javascript:;" class="editfield"><img class="f-grid-cell-icon" src="@Url.Content("~/res/icon/application_cascade.png")"></a>';
+        }
+
+        // 打开窗体
+        function openWindow(rowData) {
+            var startTime = F.ui.startTime.getValue();
+            var endTime = F.ui.endTime.getValue();
+
+
+            // Grid/IFrameWindow?id=104&name=刘国
+            var iframeWindowUrl = '@Url.Content("~/SaltStatistic/TerminalAnalysisDetail")';
+            var iframeUrl = iframeWindowUrl + '?id=' + rowData.id + '&startTime=' + startTime.toDateString() + '&endTime=' + endTime.toDateString();
+
+            // 显示窗体
+            F.ui.Window1.show(iframeUrl, '详细信息 - ' + rowData.text);
+        }
+
+        F.ready(function () {
+
+            var grid = F.ui.Grid1;
+
+            // 点击表格行中的编辑按钮
+            grid.el.on('click', 'a.editfield', function (event) {
+                var rowEl = $(this).closest('.f-grid-row');
+                var rowData = grid.getRowData(rowEl);
+
+                openWindow(rowData);
+            });
+
+        });
+
+    </script>
+}
+
+
+
+
+
+
+
+
+

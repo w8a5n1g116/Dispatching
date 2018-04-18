@@ -33,7 +33,7 @@ namespace FineUIMvc.EmptyProject.Controllers
             startToday = new DateTime(today.Year, today.Month, today.Day, 0, 0, 0);
             endToday = new DateTime(today.AddDays(1).Year, today.AddDays(1).Month, today.AddDays(1).Day, 0, 0, 0);
 
-            List<DUser> userList = _userSerivce.FindList(p => true, "", true).ToList();
+            List<DUser> userList = _userSerivce.FindList(p => p.Permission == 2, "", true).ToList();
 
             List<Order> orderList = _orderSerive.FindList(p => p.CreateTime < endToday && p.CreateTime > startToday,"",true).ToList();
 
@@ -92,7 +92,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                 startToday = new DateTime(startTime1.Year, startTime1.Month, startTime1.Day, 0, 0, 0);
                 endToday = new DateTime(endTime1.AddDays(1).Year, endTime1.AddDays(1).Month, endTime1.AddDays(1).Day, 0, 0, 0);
 
-                List<DUser> userList = _userSerivce.FindList(p => true, "", true).ToList();
+                List<DUser> userList = _userSerivce.FindList(p => p.Permission == 2, "", true).ToList();
 
                 List<Order> orderList = _orderSerive.FindList(p => p.CreateTime < endToday && p.CreateTime > startToday, "", true).ToList();
 

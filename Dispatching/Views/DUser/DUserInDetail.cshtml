@@ -8,6 +8,17 @@
     {
         dUser = new DUser();
     }
+
+    ListItemCollection PermissionItems = new ListItemCollection(new DropDownList());
+    //PermissionItems.Add("管理员", "1");
+    PermissionItems.Add("酒品配送", "2");
+    PermissionItems.Add("商品配送", "0");
+
+    ListItemCollection RoleItems = new ListItemCollection(new DropDownList());
+    RoleItems.Add("配送员", "3");
+    RoleItems.Add("业务员", "1");
+    RoleItems.Add("结算员", "4");
+    RoleItems.Add("经理", "2");
 }
 
 @section body{
@@ -45,7 +56,24 @@
                     F.TextBox()
                         .ID("Phone")
                         .Label("电话")
-                        .Text(dUser.Phone != null ? dUser.Phone : "")
+                        .Text(dUser.Phone != null ? dUser.Phone : ""),
+                    F.DropDownList()
+                        .ID("Permission")
+                        .Label("用户系统")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .DataSource(PermissionItems)
+                        .SelectedValue(dUser.Permission.ToString())
+                        .OnSelectedIndexChanged(Url.Action("Permission_SelectedIndexChanged"), "Permission")
+                        .Required(true),
+                    F.DropDownList()
+                        .ID("Role")
+                        .Label("用户类型")
+                        .DataTextField("Text")
+                        .DataValueField("Value")
+                        .DataSource(RoleItems)
+                        //.SelectedValue(dUser.Role.ToString())
+                        .Required(true)
 
 
                 )

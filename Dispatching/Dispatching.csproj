@@ -133,12 +133,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DUserController.cs" />
+    <Compile Include="Controllers\SaltGoodsController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
+    <Compile Include="Controllers\SaltOrderController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\SaltStatisticController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
+    <Compile Include="Controllers\SaltTerminalController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\WeChatController.cs" />
     <Compile Include="Global.asax.cs">
@@ -305,6 +309,48 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\OrderListWithDelete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltOrder\SaltOrderDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltOrder\SaltOrderList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltOrder\SaltOrderListWithDelete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltTerminal\ShowQRCode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltTerminal\SaltTerminalIn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltTerminal\SaltTerminalInDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltGoods\SaltGoodsIn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltGoods\SaltGoodsInDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\TerminalAnalysis.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\TerminalAnalysisDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\UserAnalysis.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\UserAnalysisDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\UserTerminalAnalysis.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SaltStatistic\UserTerminalAnalysisDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

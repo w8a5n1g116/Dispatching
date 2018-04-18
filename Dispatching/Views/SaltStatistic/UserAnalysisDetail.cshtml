@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "用户订单详情";
+    var F = Html.F();
+
+}
+
+@section head {
+
+
+}
+
+
+@section body {
+    @(F.Grid()
+            .ID("Grid1")
+            .ShowBorder(true)
+            .ShowHeader(true)
+            .Title("用户订单详情")
+            .EnableCollapse(false)
+            .Layout(LayoutType.VBox)
+            .Height(500)
+            .BoxConfigChildMargin("0 0 5 0")
+            .BodyPadding(5)
+            .DataIDField("GoodsID")
+            .DataTextField("GoodsID")
+            //.AllowCellEditing(true)
+            //.ClicksToEdit(2)
+            //.EnableCheckBoxSelect(true)
+            //.AllowPaging(true)
+            //.PageSize(10)
+            //.IsDatabasePaging(true)
+            //.OnPageIndexChanged(Url.Action("UserAnalysis_PageIndexChanged"), "Grid1")
+            .Columns(
+                F.RowNumberField(),
+                F.RenderField()
+                    .ColumnID("GoodsID")
+                    .DataField("GoodsID")
+                    .HeaderText("GoodsID")
+                    .Hidden(true),
+                F.RenderField()
+                    .ColumnID("GoodsName")
+                    .DataField("GoodsName")
+                    .HeaderText("商品名称"),
+                F.RenderField()
+                    .ColumnID("Count")
+                    .DataField("Count")
+                    .HeaderText("下单数量"),
+                F.RenderField()
+                    .ColumnID("CountRebate")
+                    .DataField("CountRebate")
+                    .HeaderText("返利"),
+                F.RenderField()
+                    .ColumnID("CountIncome")
+                    .DataField("CountIncome")
+                    .HeaderText("收款"),
+                F.RenderField()
+                    .ColumnID("CountPrice")
+                    .DataField("CountPrice")
+                    .HeaderText("总价")
+            )
+
+            //.RecordCount(ViewBag.Grid1RecordCount)
+            .DataSource(ViewBag.Grid1DataSource)
+    //.ShowPagingMessage(true)
+    )
+)
+
+}
+
+@section script {
+    
+}
+
+
+
+
+
+
+
+
+
