@@ -1215,9 +1215,9 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             List<SaltOrder> orderList = new List<SaltOrder>();
 
-            if (PayType == "压批")
+            if (PayType == "押批")
             {
-                orderList = _saltOrderSerive.FindList(p => p.PayType == "压批" && p.UserID == UserID && p.OrderStatus != "驳回", "CreateTime", false).ToList();
+                orderList = _saltOrderSerive.FindList(p => p.PayType == "押批" && p.UserID == UserID && p.OrderStatus != "驳回", "CreateTime", false).ToList();
             }
             else if (PayType == "现金")
             {
@@ -1251,9 +1251,9 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             List<SaltOrder> orderList = new List<SaltOrder>();
 
-            if (PayType == "压批")
+            if (PayType == "押批")
             {
-                orderList = _saltOrderSerive.FindList(p => p.PayType == "压批" && p.UserID == UserID && p.OrderStatus != "驳回", "CreateTime", false).ToList();
+                orderList = _saltOrderSerive.FindList(p => p.PayType == "押批" && p.UserID == UserID && p.OrderStatus != "驳回", "CreateTime", false).ToList();
             }
             else if (PayType == "现金")
             {
@@ -1327,9 +1327,9 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             if (order != null)
             {
-                if (ToPayType == "压批")
+                if (ToPayType == "押批")
                 {
-                    order.PayType = "压批";
+                    order.PayType = "押批";
                     retdic.Add("data", true);
                 }
                 else if (ToPayType == "现金")

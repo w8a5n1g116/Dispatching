@@ -1,0 +1,48 @@
+<xml>
+<ToUserName><![CDATA[gh_586a365e2189]]></ToUserName>
+<FromUserName><![CDATA[oS3Db0sjv3UaXv6stdupqUReqFA8]]></FromUserName>
+<CreateTime>1514340779</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[111]]></Content>
+<MsgId>6504044121263787076</MsgId>
+</xml>
+
+
+<xml><ToUserName><![CDATA[gh_586a365e2189]]></ToUserName>
+<FromUserName><![CDATA[oS3Db0sjv3UaXv6stdupqUReqFA8]]></FromUserName>
+<CreateTime>1514348942</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[qrscene_16]]></EventKey>
+<Ticket><![CDATA[gQE88DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyX25hd2tZYk1mcmkxMDAwME0wM2QAAgTZGUNaAwQAAAAA]]></Ticket>
+</xml>
+
+<xml>
+<ToUserName><![CDATA[gh_586a365e2189]]></ToUserName>
+<FromUserName><![CDATA[oS3Db0sjv3UaXv6stdupqUReqFA8]]></FromUserName>
+<CreateTime>1514347034</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[SCAN]]></Event>
+<EventKey><![CDATA[16]]></EventKey>
+<Ticket><![CDATA[gQE88DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyX25hd2tZYk1mcmkxMDAwME0wM2QAAgTZGUNaAwQAAAAA]]></Ticket>
+</xml>
+
+<xml>
+<ToUserName><![CDATA[gh_586a365e2189]]></ToUserName>
+<FromUserName><![CDATA[oS3Db0sjv3UaXv6stdupqUReqFA8]]></FromUserName>
+<CreateTime>1514348782</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+{
+    "button": 
+    [
+        {
+            "type": "view", 
+            "name": "查询订单", 
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7c4f06cc2aa22f90&redirect_uri=http://415c6f30.ngrok.io/Mobile/TerminalAnalysis&response_type=code&scope=snsapi_base&state=0#wechat_redirect"
+        }
+    ]
+}
