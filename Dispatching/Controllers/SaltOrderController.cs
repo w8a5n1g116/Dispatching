@@ -37,6 +37,27 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             ViewBag.Grid1RecordCount = orderList.Count;
 
+            SaltOrder summaryOrder = new SaltOrder();
+
+            foreach (var order in orderList)
+            {
+                summaryOrder.CountPrice += order.CountPrice;
+                summaryOrder.CountIncome += order.CountIncome;
+                summaryOrder.CountRebate += order.CountRebate;
+            }
+
+            ViewBag.CountPrice = summaryOrder.CountPrice;
+            ViewBag.CountIncome = summaryOrder.CountIncome;
+            ViewBag.CountRebate = summaryOrder.CountRebate;
+
+            //JObject summary = new JObject();
+            ////summary.Add("major", "全部合计");
+            //summary.Add("CountPrice", summaryOrder.CountPrice);
+            //summary.Add("CountIncome", summaryOrder.CountIncome);
+            //summary.Add("CountRebate", summaryOrder.CountRebate);
+
+            //ViewBag.SummaryData = summary;
+
             ViewBag.Grid1DataSource = PagingHelper<SaltOrder>.GetPagedDataTable(0, 10, orderList.Count, orderList);
 
             DUser user = (DUser)Session["User"];
@@ -92,6 +113,19 @@ namespace FineUIMvc.EmptyProject.Controllers
                 orderList = orderList.Where(p => p.PayType == payType).ToList();
             }
 
+            SaltOrder summaryOrder = new SaltOrder();
+
+            foreach (var order in orderList)
+            {
+                summaryOrder.CountPrice += order.CountPrice;
+                summaryOrder.CountIncome += order.CountIncome;
+                summaryOrder.CountRebate += order.CountRebate;
+            }
+
+            UIHelper.Label("CountPrice").Text(summaryOrder.CountPrice.ToString());
+            UIHelper.Label("CountIncome").Text(summaryOrder.CountIncome.ToString());
+            UIHelper.Label("CountRebate").Text(summaryOrder.CountRebate.ToString());
+
             var grid1 = UIHelper.Grid("Grid1");
 
             grid1.RecordCount(orderList.Count);
@@ -142,6 +176,19 @@ namespace FineUIMvc.EmptyProject.Controllers
             {
                 orderList = orderList.Where(p => p.PayType == payType).ToList();
             }
+
+            SaltOrder summaryOrder = new SaltOrder();
+
+            foreach (var order in orderList)
+            {
+                summaryOrder.CountPrice += order.CountPrice;
+                summaryOrder.CountIncome += order.CountIncome;
+                summaryOrder.CountRebate += order.CountRebate;
+            }
+
+            UIHelper.Label("CountPrice").Text(summaryOrder.CountPrice.ToString());
+            UIHelper.Label("CountIncome").Text(summaryOrder.CountIncome.ToString());
+            UIHelper.Label("CountRebate").Text(summaryOrder.CountRebate.ToString());
 
             var grid1 = UIHelper.Grid("Grid1");
 

@@ -107,6 +107,21 @@
                         .Text("查询")
                         .Icon(Icon.Application)
                         .OnClick(Url.Action("SaltOrderList"), "QueryForm", new Parameter("fields", "F.ui.Grid1.fields"))
+                ),
+            F.FormRow()
+                .Items(
+                    F.Label()
+                        .ID("CountPrice")
+                        .Text(ViewBag.CountPrice.ToString())
+                        .Label("总价"),
+                    F.Label()
+                        .ID("CountIncome")
+                        .Text(ViewBag.CountIncome.ToString())
+                        .Label("总实收"),
+                    F.Label()
+                        .ID("CountRebate")
+                        .Text(ViewBag.CountRebate.ToString())
+                        .Label("总返利")
                 )
         )
     )

@@ -93,7 +93,7 @@
                     )
                 ),
             F.FormRow()
-                .Items(                   
+                .Items(
                     F.TextBox()
                         .ID("userName")
                         .Text("")
@@ -107,6 +107,21 @@
                         .Text("查询")
                         .Icon(Icon.Application)
                         .OnClick(Url.Action("SaltOrderList"), "QueryForm", new Parameter("fields", "F.ui.Grid1.fields"))
+                ),
+            F.FormRow()
+                .Items(
+                    F.Label()
+                        .ID("CountPrice")
+                        .Text(ViewBag.CountPrice.ToString())
+                        .Label("总价"),
+                    F.Label()
+                        .ID("CountIncome")
+                        .Text(ViewBag.CountIncome.ToString())
+                        .Label("总实收"),
+                    F.Label()
+                        .ID("CountRebate")                     
+                        .Text(ViewBag.CountRebate.ToString())
+                        .Label("总返利")
                 )
         )
     )
@@ -129,6 +144,8 @@
             .AllowPaging(true)
             .PageSize(10)
             .IsDatabasePaging(true)
+            //.EnableSummary(true)
+            //.SummaryPosition(SummaryPosition.Flow)
             .OnPageIndexChanged(Url.Action("SaltOrderList_PageIndexChanged"), "Grid1", new Parameter("startTime", "F.ui.startTime.getText()"), new Parameter("endTime", "F.ui.endTime.getText()"), new Parameter("userName", "F.ui.userName.getText()"), new Parameter("terminalName", "F.ui.terminalName.getText()"), new Parameter("orderStatus", "F.ui.orderStatus.getText()"), new Parameter("orderType", "F.ui.orderType.getText()"), new Parameter("payType", "F.ui.payType.getText()"))
             .Columns(
                 F.RowNumberField(),
@@ -191,6 +208,7 @@
             .RecordCount(ViewBag.Grid1RecordCount)
             .DataSource(ViewBag.Grid1DataSource)
             .ShowPagingMessage(true)
+            //.SummaryData(ViewBag.SummaryData)
     )
 
     @(F.Window()
