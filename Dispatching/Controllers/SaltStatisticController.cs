@@ -83,7 +83,7 @@ namespace FineUIMvc.EmptyProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserAnalysis(DateTime startTime,DateTime endTime, JArray fields)
+        public ActionResult UserAnalysis(DateTime startTime,DateTime endTime, string orderStatus, string orderType, string payType, JArray fields)
         {
 
             List<UserStatistic> userStatisticList = new List<UserStatistic>();
@@ -99,6 +99,21 @@ namespace FineUIMvc.EmptyProject.Controllers
                 List<DUser> userList = _userSerivce.FindList(p => p.Role == 1, "", true).ToList();
 
                 List<SaltOrder> orderList = _saltOrderSerive.FindList(p => p.CreateTime < endToday && p.CreateTime > startToday, "", true).ToList();
+
+                if (!string.IsNullOrEmpty(orderStatus))
+                {
+                    orderList = orderList.Where(p => p.OrderStatus == orderStatus).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(orderType))
+                {
+                    orderList = orderList.Where(p => p.OrderType.Contains(orderType)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(payType))
+                {
+                    orderList = orderList.Where(p => p.PayType == payType).ToList();
+                }
 
                 foreach (var user in userList)
                 {

@@ -33,6 +33,69 @@
                         .Text("查询")
                         .Icon(Icon.Application)
                         .OnClick(Url.Action("UserAnalysis"), "QueryForm", new Parameter("fields", "F.ui.Grid1.fields"))
+                ),
+            F.FormRow()
+                .Items(
+                    F.DropDownList()
+                        .ID("orderStatus")
+                        .Label("支付状态")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("下达")
+                                .Value("下达"),
+                            F.ListItem()
+                                .Text("通过")
+                                .Value("通过"),
+                            F.ListItem()
+                                .Text("驳回")
+                                .Value("驳回"),
+                            F.ListItem()
+                                .Text("送达")
+                                .Value("送达"),
+                            F.ListItem()
+                                .Text("待收现")
+                                .Value("待收现"),
+                            F.ListItem()
+                                .Text("已收现")
+                                .Value("已收现"),
+                            F.ListItem()
+                                .Text("结算")
+                                .Value("结算")
+                    ),
+                    F.DropDownList()
+                        .ID("orderType")
+                        .Label("订单类型")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("下单")
+                                .Value("下单"),
+                            F.ListItem()
+                                .Text("换货")
+                                .Value("换货"),
+                            F.ListItem()
+                                .Text("退货")
+                                .Value("退货")
+                    ),
+                    F.DropDownList()
+                        .ID("payType")
+                        .Label("支付类型")
+                        .Items(
+                            F.ListItem()
+                                .Text("")
+                                .Value(""),
+                            F.ListItem()
+                                .Text("现金")
+                                .Value("现金"),
+                            F.ListItem()
+                                .Text("押批")
+                                .Value("押批")
+                    )
                 )
         )
     )

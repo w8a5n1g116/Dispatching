@@ -99,11 +99,11 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             if (!string.IsNullOrEmpty(name))
             {
-                goodsList = _goodsService.FindList(p => p.Name.Contains(name), "", true).ToList();
+                goodsList = _goodsService.FindList(p => p.Name.Contains(name) && !p.Description.Contains("隐藏"), "", true).ToList();
             }
             else
             {
-                goodsList = _goodsService.FindList(p => true, "", true).ToList();
+                goodsList = _goodsService.FindList(p => !p.Description.Contains("隐藏"), "", true).ToList();
             }
 
             goodsList = PagingHelper<Goods>.GetPagedDataTable(pageNum,10,goodsList.Count, goodsList);
