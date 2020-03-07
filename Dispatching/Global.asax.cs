@@ -24,7 +24,9 @@ namespace FineUIMvc.EmptyProject
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             //启动程序时创建公众号自定义菜单
-            string body = "{\"button\":[{\"type\": \"view\",\"name\": \"查询订单\",\"url\": \"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx73121a739e14df05&redirect_uri=http://stopno.net/Mobile/TerminalAnalysis&response_type=code&scope=snsapi_base&state=0#wechat_redirect\"}]}";
+            string body = "{\"button\":[{\"type\": \"view\",\"name\": \"查询订单\",\"url\": \"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx73121a739e14df05&redirect_uri=http://stopno.net/Mobile/TerminalAnalysis&response_type=code&scope=snsapi_base&state=0#wechat_redirect\"}," 
+                +"{\"type\": \"click\",\"name\": \"联系电话\",\"key\": \"phoneNumber\"}"
+                + "]}";
 
             WeChatCommon wcc = new WeChatCommon();
             wcc.CreateCustomerMenu(body);

@@ -137,7 +137,22 @@ namespace FineUIMvc.EmptyProject.Controllers
                 }
             }
 
-            
+            //回复电话号码
+            if (!string.IsNullOrEmpty(Event) && Event == "CLICK")
+            {
+                if (!string.IsNullOrEmpty(EventKey) && EventKey.Contains("phoneNumber"))
+                {
+                    string stringxml = "<xml>"
+                        + "<ToUserName><![CDATA["+ FromUserName +"]]></ToUserName>"
+                        + "<FromUserName><![CDATA[" + ToUserName + "]]></FromUserName>"
+                        + "<CreateTime>" + CreateTime +"</CreateTime>"
+                        + "<MsgType><![CDATA[text]]></MsgType>"
+                        + "<Content><![CDATA[联系电话:13591645115]]></Content>"
+                        + "</xml>";
+
+                    return Content(stringxml);
+                }
+            }
 
             //取消关注，删除用户终端绑定
             if (!string.IsNullOrEmpty(Event) && Event == "unsubscribe")
