@@ -147,7 +147,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                         + "<FromUserName><![CDATA[" + ToUserName + "]]></FromUserName>"
                         + "<CreateTime>" + CreateTime +"</CreateTime>"
                         + "<MsgType><![CDATA[text]]></MsgType>"
-                        + "<Content><![CDATA[联系电话:13591645115]]></Content>"
+                        + "<Content><![CDATA[批发部电话:024-24124877\n白经理:13840255740\n王经理:13591645115]]></Content>"
                         + "</xml>";
 
                     return Content(stringxml);

@@ -14,7 +14,7 @@
         //如果您想要针对其他数据库和/或数据库提供程序，请在应用程序配置文件中修改“Model”
         //连接字符串。
         public Model()
-            : base("name=Model")
+            : base("name=DebugModel")
         {
         }
 
