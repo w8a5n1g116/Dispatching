@@ -135,6 +135,12 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             ViewBag.Grid1DataSource = PagingHelper<OrderGoods>.GetPagedDataTable(0, 10, orderGoodsList.Count, orderGoodsList);
 
+            List<OrderWapper> orderWappersList = order.OrderWapper.ToList();
+
+            ViewBag.Grid2RecordCount = orderWappersList.Count;
+
+            ViewBag.Grid2DataSource = PagingHelper<OrderWapper>.GetPagedDataTable(0, 10, orderWappersList.Count, orderWappersList);
+
             ViewBag.ID = id;
 
             return View(orderGoodsList);
@@ -156,6 +162,26 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             var dataSource = PagingHelper<OrderGoods>.GetPagedDataTable(Grid1_pageIndex, 10, orderGoodsList.Count, orderGoodsList);
             grid1.DataSource(dataSource, Grid1_fields);
+
+            return UIHelper.Result();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OrderDetail2_PageIndexChanged(JArray Grid2_fields, int Grid2_pageIndex, int id)
+        {
+            Order order = _orderSerive.Find(p => p.ID == id);
+
+            List<OrderWapper> orderWapperList = order.OrderWapper.ToList();
+
+            var grid2 = UIHelper.Grid("Grid2");
+
+            var recordCount = orderWapperList.Count;
+
+            grid2.RecordCount(recordCount);
+
+            var dataSource = PagingHelper<OrderWapper>.GetPagedDataTable(Grid2_pageIndex, 10, orderWapperList.Count, orderWapperList);
+            grid2.DataSource(dataSource, Grid2_fields);
 
             return UIHelper.Result();
         }

@@ -32,7 +32,9 @@
         public virtual DbSet<Terminal> Terminal { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Goods> Goods { get; set; }
+        public virtual DbSet<Wapper> Wapper { get; set; }
         public virtual DbSet<OrderGoods> OrderGoods { get; set; }
+        public virtual DbSet<OrderWapper> OrderWapper { get; set; }
         public virtual DbSet<TerminalWXUser> TerminalWXUser { get; set; }
 
         public virtual DbSet<SaltOrderGoods> SaltOrderGoods { get; set; }

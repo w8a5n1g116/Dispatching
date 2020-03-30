@@ -1,0 +1,96 @@
+﻿@using DAL.Model;
+@{
+    ViewBag.Title = "商品录入";
+    var F = Html.F();
+
+    Wapper wapper = ViewBag.Wapper;
+    if (wapper == null)
+    {
+        wapper = new Wapper();
+    }
+}
+
+@section body{
+    @(F.Form()
+        .ID("Form1")
+        .LabelAlign(LabelAlign.Right)
+        .MessageTarget(MessageTarget.Qtip)
+        .LabelWidth(90)
+        .ShowBorder(false)
+        .ShowHeader(false)
+        .Items(
+            F.Panel()
+                .ID("Panel1")
+                .Title("商品录入")
+                .BoxFlex(5)
+                .MarginRight(5)
+                .ShowBorder(false)
+                .ShowHeader(false)
+                .Items(
+
+                    F.Image()
+                        .ID("imgPhoto")
+                        .CssClass("photo")
+                        .ImageUrl(wapper.Picture != null ? wapper.Picture :Url.Content("~/res/images/blank.png"))
+                        .ShowEmptyLabel(true),
+                    F.FileUpload()
+                        .ID("filePhoto")
+                        .ShowRedStar(false)
+                        .ShowEmptyLabel(true)
+                        .ButtonText("上传商品图片")
+                        .ButtonOnly(true)
+                        .Required(false)
+                        .ButtonIcon(Icon.ImageAdd)
+                        .OnFileSelected(Url.Action("filePhoto_FileSelected"), "filePhoto"),
+                     F.HiddenField()
+                        .ID("ID")
+                        .Text(wapper.ID != 0 ? wapper.ID.ToString() : "0"),
+                     F.TextBox()
+                         .ID("Name")
+                         .Label("名称")
+                         .ShowRedStar(true)
+                         .Required(true)
+                         .Text(wapper.Name != null ? wapper.Name : ""),
+                     F.NumberBox()
+                        .ID("Price")
+                        .Label("单价")
+                        .ShowRedStar(true)
+                        .Required(true)
+                        .Text(wapper.Price.ToString()),
+                     F.TextBox()
+                         .ID("Spec")
+                         .Label("规格")
+                         //.ShowRedStar(true)
+                         //.Required(true)
+                         .Text(wapper.Spec != null ? wapper.Spec : ""),
+                     F.TextBox()
+                         .ID("Description")
+                         .Label("描述")
+                         //.ShowRedStar(true)
+                         //.Required(true)
+                         .Text(wapper.Description != null ? wapper.Description : ""),
+                    F.TextBox()
+                        .ID("Picture")
+                        .Label("图片")
+                        .Text(wapper.Picture != null ? wapper.Picture : "")
+                        .Hidden(true)
+
+
+                )
+        )
+        .Toolbars(
+            F.Toolbar()
+                .ID("Toolbar1")
+                .ToolbarAlign(ToolbarAlign.Right)
+                .Position(ToolbarPosition.Bottom)
+                .Items(
+                    F.Button()
+                        .ID("Button1")
+                        .Text("保存信息")
+                        .ValidateForms("Form1")
+                        .OnClick(Url.Action("SaveWapper"), "Form1")
+                        .ValidateMessageBox(false)
+                )
+        )
+    )
+}

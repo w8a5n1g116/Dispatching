@@ -87,6 +87,11 @@
                     .DataField("DUser.Name")
                     .HeaderText("下单用户"),
                 F.RenderField()
+                    .ColumnID("WapperCount")
+                    .DataField("WapperCountPrice")
+                    .HeaderText("送达终端")
+                    .Width(200),
+                F.RenderField()
                     .ColumnID("TerminalName")
                     .DataField("Terminal.Name")
                     .HeaderText("送达终端")

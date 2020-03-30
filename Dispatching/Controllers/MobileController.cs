@@ -22,6 +22,9 @@ namespace FineUIMvc.EmptyProject.Controllers
         private readonly IGoodsService _goodsService;
         private readonly ITerminalWXUserService _terminalWXUserService;
         private readonly IUserService _dUserService;
+        private readonly IWapperService _wapperService;
+        private readonly IOrderWapperService _orderWapperService;
+
 
         private readonly ISaltOrderService _saltOrderSerive;
         private readonly ISaltOrderGoodsService _saltOrderGoodsService;
@@ -40,6 +43,8 @@ namespace FineUIMvc.EmptyProject.Controllers
             _goodsService = new GoodsService(null);
             _terminalWXUserService = new TerminalWXUserService(null);
             _dUserService = new UserService(null);
+            _wapperService = new WapperService(null);
+            _orderWapperService = new OrderWapperService(null);
 
             _saltOrderSerive = new SaltOrderService(null);
             _saltOrderGoodsService = new SaltOrderGoodsService(null);
@@ -115,6 +120,7 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
         }
+        
 
         [HttpPost]
         public string GetGoodsDetail()
@@ -131,6 +137,63 @@ namespace FineUIMvc.EmptyProject.Controllers
             Dictionary<string, Object> retdic = new Dictionary<string, object>();
 
             retdic.Add("data", goods);
+
+            return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
+        }
+
+        [HttpPost]
+        public string GetWapper()
+        {
+            var sr = new StreamReader(Request.InputStream);
+            var stream = sr.ReadToEnd();
+
+            Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(stream);
+            string pageNumString = dic["pageNum"];
+
+            string name = null;
+            if (dic.Where(p => p.Key == "name").Any())
+            {
+                name = dic["name"];
+            }
+
+            int pageNum = Convert.ToInt32(pageNumString) - 1;
+
+            List<Wapper> wapperList;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                wapperList = _wapperService.FindList(p => p.Name.Contains(name) && !p.Description.Contains("隐藏"), "", true).ToList();
+            }
+            else
+            {
+                wapperList = _wapperService.FindList(p => !p.Description.Contains("隐藏"), "", true).ToList();
+            }
+
+            wapperList = PagingHelper<Wapper>.GetPagedDataTable(pageNum, 10, wapperList.Count, wapperList);
+
+            Dictionary<string, Object> retdic = new Dictionary<string, object>();
+
+            retdic.Add("data", wapperList);
+            retdic.Add("pageNum", pageNum);
+
+            return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
+        }
+
+        [HttpPost]
+        public string GetWapperDetail()
+        {
+            var sr = new StreamReader(Request.InputStream);
+            var stream = sr.ReadToEnd();
+
+            Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(stream);
+            string WapperIDString = dic["WapperID"];
+            int WapperID = Convert.ToInt32(WapperIDString);
+
+            Wapper wapper = _wapperService.Find(p => p.ID == WapperID);
+
+            Dictionary<string, Object> retdic = new Dictionary<string, object>();
+
+            retdic.Add("data", wapper);
 
             return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
         }
@@ -207,6 +270,71 @@ namespace FineUIMvc.EmptyProject.Controllers
             retdic.Add("data", true);
 
             
+            return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
+        }
+
+        [HttpPost]
+        public string PlaceOrderWapper()
+        {
+            Dictionary<string, Object> retdic = new Dictionary<string, object>();
+
+            try
+            {
+
+                var sr = new StreamReader(Request.InputStream);
+                var stream = sr.ReadToEnd();
+
+                WapperCount tgc = JsonConvert.DeserializeObject<WapperCount>(stream);
+                //string TerminalID = dic["TerminalID"];
+                //string GoodsCountListString = dic["GoodsCountList"];
+                List<GoodsCount> goodsCountList = tgc.GoodsCountList;//JsonConvert.DeserializeObject<List<GoodsCount>>(GoodsCountListString);
+
+                for (int i = 0; i < goodsCountList.Count; i++)
+                {
+                    if (goodsCountList[i].GoodsID == 0)
+                    {
+                        goodsCountList.Remove(goodsCountList[i]);
+                    }
+                }
+
+                Order order = _orderSerive.Find(p => p.ID == tgc.OrderID);
+
+                double countPrice = 0;
+
+                foreach (var goodsCount in goodsCountList)
+                {
+                    Wapper wapper = _wapperService.Find(p => p.ID == goodsCount.GoodsID);
+
+                    OrderWapper orderWapper = new OrderWapper();
+                    orderWapper.Wapper = wapper;
+                    orderWapper.WapperID = wapper.ID;
+                    orderWapper.Count = goodsCount.Count;
+                    orderWapper.CountPrice = goodsCount.Count * wapper.Price;
+                    orderWapper.CreateTime = DateTime.Now;
+                    orderWapper.OrderID = order.ID;
+                    orderWapper.Order = order;
+
+                    //orderGoods = _orderGoodsService.Add(orderGoods);
+
+                    order.OrderWapper.Add(orderWapper);
+
+                    countPrice += orderWapper.CountPrice;
+                }
+
+                order.WapperCountPrice = countPrice;
+
+                _orderSerive.Update(order);
+            }
+            catch (Exception e)
+            {
+                retdic.Add("data", e.ToString());
+
+                return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
+            }
+
+            retdic.Add("data", true);
+
+
             return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
         }
 
@@ -309,6 +437,10 @@ namespace FineUIMvc.EmptyProject.Controllers
             Dictionary<string, Object> retdic = new Dictionary<string, object>();
 
             retdic.Add("data", orderGoodsList);
+
+            List<OrderWapper> orderWapperList = _orderWapperService.FindList(p => p.OrderID == OrderID, "CreateTime", true).ToList();
+
+            retdic.Add("data2", orderWapperList);
 
             return JsonConvert.SerializeObject(retdic, Formatting.Indented, timeFormat);
         }
@@ -446,6 +578,9 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             us.UserOrderGoodsList = retuserOrderGoodsList;
 
+            
+
+
             Dictionary<string, Object> retdic = new Dictionary<string, object>();
 
             retdic.Add("data", us);
@@ -472,6 +607,13 @@ namespace FineUIMvc.EmptyProject.Controllers
             public List<GoodsCount> GoodsCountList { get; set; }
         }
 
+        public class WapperCount
+        {
+            public int OrderID { get; set; }
+
+            public List<GoodsCount> GoodsCountList { get; set; }
+        }
+
         public class GoodsCount
         {
             public int GoodsID { get; set; }
@@ -494,15 +636,16 @@ namespace FineUIMvc.EmptyProject.Controllers
 
                 wxUser = _terminalWXUserService.Find(p => p.OpenID == oauth2token.ResponseData.openid);
 
-                if(wxUser== null)
+                if (wxUser == null)
                 {
                     return View("Error");
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return View("Error");
             }
-            
+
 
             int id = (int)wxUser.TerminalID;
 
@@ -601,6 +744,33 @@ namespace FineUIMvc.EmptyProject.Controllers
             ViewBag.TerminalStatistic = ts;
 
             ViewBag.ID = id;
+
+            List<Order> wapperOrder = _orderSerive.FindList(p => p.WapperCountPrice != 0 && p.Terminal.ID == id, "", true).ToList();
+
+            Dictionary<Wapper, List<OrderWapper>> wapperDic = new Dictionary<Wapper, List<OrderWapper>>();
+            List<Wapper> wapperList = _wapperService.FindList(p => true, "", true).ToList();
+            foreach (var w in wapperList)
+            {
+                wapperDic.Add(w, new List<OrderWapper>());
+            }
+
+            foreach (var o in wapperOrder)
+            {
+                foreach (var w in o.OrderWapper)
+                {
+                    wapperDic.Where(p => p.Key.ID == w.Wapper.ID).First().Value.Add(w);
+                }
+            }
+
+
+
+            Dictionary<string, int> wapperCount = new Dictionary<string, int>();
+            foreach (var d in wapperDic)
+            {
+                wapperCount.Add(d.Key.Name, d.Value.Sum(p => p.Count));
+            }
+
+            ViewBag.WapperCountDic = wapperCount;
 
             return View();
         }
@@ -706,6 +876,34 @@ namespace FineUIMvc.EmptyProject.Controllers
             ViewBag.TerminalStatistic = ts;
 
             ViewBag.ID = id;
+
+            List<Order> wapperOrder = _orderSerive.FindList(p => p.WapperCountPrice != 0 && p.Terminal.ID == id, "", true).ToList();
+
+            Dictionary<Wapper, List<OrderWapper>> wapperDic = new Dictionary<Wapper, List<OrderWapper>>();
+            List<Wapper> wapperList = _wapperService.FindList(p => true, "", true).ToList();
+            foreach (var w in wapperList)
+            {
+                wapperDic.Add(w, new List<OrderWapper>());
+            }
+
+            foreach (var o in wapperOrder)
+            {
+                foreach (var w in o.OrderWapper)
+                {
+                    wapperDic.Where(p => p.Key.ID == w.Wapper.ID).First().Value.Add(w);
+                }
+            }
+
+
+
+            Dictionary<string, int> wapperCount = new Dictionary<string, int>();
+            foreach (var d in wapperDic)
+            {
+                wapperCount.Add(d.Key.Name, d.Value.Sum(p => p.Count));
+            }
+
+            ViewBag.WapperCountDic = wapperCount;
+
 
             return View();
         }

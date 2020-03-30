@@ -80,6 +80,10 @@ namespace FineUIMvc.EmptyProject.Controllers
             GoodsManage.Text = "商品管理";
             GoodsManage.NavigateUrl = "~/Goods/GoodsIn";
 
+            TreeNode WapperManage = new TreeNode();
+            WapperManage.Text = "箱套管理";
+            WapperManage.NavigateUrl = "~/Wapper/WapperIn";
+
             TreeNode OrderManage = new TreeNode();
             OrderManage.Text = "订单管理";
             OrderManage.NavigateUrl = "~/Order/OrderList";
@@ -125,6 +129,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                 nodeList.Add(OrderManage);
                 nodeList.Add(TerminalManage);
                 nodeList.Add(GoodsManage);
+                nodeList.Add(WapperManage);
                 nodeList.Add(UserManage);
                 nodeList.Add(UserStatisticManage);
                 nodeList.Add(TerminalStatisticManage);

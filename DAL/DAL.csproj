@@ -59,6 +59,8 @@
     <Compile Include="BaseRepository\BaseRepository.cs" />
     <Compile Include="BaseRepository\IBaseRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="IRepository\IOrderWapperRepository.cs" />
+    <Compile Include="IRepository\IWapperRepository.cs" />
     <Compile Include="IRepository\ISaltGoodsRepository.cs" />
     <Compile Include="IRepository\ISaltOrderGoodsRepository.cs" />
     <Compile Include="IRepository\IOrderGoodsRepository.cs" />
@@ -73,8 +75,14 @@
     <Compile Include="Migrations\201712120150267_DispatchingMigration.Designer.cs">
       <DependentUpon>201712120150267_DispatchingMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003300742104_addWapper.cs" />
+    <Compile Include="Migrations\202003300742104_addWapper.Designer.cs">
+      <DependentUpon>202003300742104_addWapper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\DUser.cs" />
+    <Compile Include="Model\OrderWapper.cs" />
+    <Compile Include="Model\Wapper.cs" />
     <Compile Include="Model\SlatGoods.cs" />
     <Compile Include="Model\Goods.cs" />
     <Compile Include="Model\Model.cs" />
@@ -86,6 +94,8 @@
     <Compile Include="Model\TerminalWXUser.cs" />
     <Compile Include="Model\Terminal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\OrderWapperRepository.cs" />
+    <Compile Include="Repository\WapperRepository.cs" />
     <Compile Include="Repository\SaltGoodsRepository.cs" />
     <Compile Include="Repository\SaltOrderGoodsRepository.cs" />
     <Compile Include="Repository\OrderGoodsRepository.cs" />
@@ -104,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201712120150267_DispatchingMigration.resx">
       <DependentUpon>201712120150267_DispatchingMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003300742104_addWapper.resx">
+      <DependentUpon>202003300742104_addWapper.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

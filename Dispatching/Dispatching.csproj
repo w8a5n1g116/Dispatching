@@ -140,6 +140,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DUserController.cs" />
+    <Compile Include="Controllers\WapperController.cs" />
     <Compile Include="Controllers\SaltGoodsController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -361,6 +362,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Views\Wapper\WapperIn.cshtml" />
+    <Content Include="Views\Wapper\WapperInDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

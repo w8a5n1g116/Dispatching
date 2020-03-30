@@ -15,6 +15,7 @@ namespace DAL.Model
         public Order()
         {
             OrderGoods = new HashSet<OrderGoods>();
+            OrderWapper = new HashSet<OrderWapper>();
         }
 
         [Key]
@@ -39,6 +40,10 @@ namespace DAL.Model
         [Display(Name = "创建时间")]
         public DateTime CreateTime { get; set; }
 
+        [Display(Name = "总价")]
+        public double WapperCountPrice { get; set; }
+
         public virtual ICollection<OrderGoods> OrderGoods { get; set; }
+        public virtual ICollection<OrderWapper> OrderWapper { get; set; }
     }
 }
